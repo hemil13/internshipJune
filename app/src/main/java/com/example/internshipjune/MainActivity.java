@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
         forget_passowrd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
