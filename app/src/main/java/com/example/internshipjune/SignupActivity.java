@@ -1,6 +1,7 @@
 package com.example.internshipjune;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -76,15 +77,22 @@ public class SignupActivity extends AppCompatActivity {
                 } else if (!cnfpassword.getText().toString().matches(password.getText().toString())) {
                     cnfpassword.setError("Password Doesn't Matches");
                 }
-
                 else{
 
-                    String insertUser = "INSERT INTO user VALUES (NULL, '"+name.getText().toString()+"', '"+email.getText().toString()+"', '"+contact.getText().toString()+"', '"+password.getText().toString()+"')";
-                    db.execSQL(insertUser);
+                    String selectQuery = "SELECT * FROM user WHERE email = '"+email.getText().toString()+"'";
+                    Cursor cursor = db.rawQuery(selectQuery, null);
 
-                    Toast.makeText(SignupActivity.this, "Signup Successful", Toast.LENGTH_LONG).show();
+
+                    if(cursor.getCount()>0){
+                        Toast.makeText(SignupActivity.this, "Email Already Exists", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        String insertUser = "INSERT INTO user VALUES (NULL, '"+name.getText().toString()+"', '"+email.getText().toString()+"', '"+contact.getText().toString()+"', '"+password.getText().toString()+"')";
+                        db.execSQL(insertUser);
+                        Toast.makeText(SignupActivity.this, "Signup Successful", Toast.LENGTH_LONG).show();
 //                    Intent intent = new Intent(SignupActivity.this, MainActivity.class);
 //                    startActivity(intent);
+                    }
                 }
             }
         });
