@@ -66,13 +66,15 @@ public class MainActivity extends AppCompatActivity {
                     passowrd.setError("Minimum 6 Characters");
                 }
                 else{
-
                     String checkUser = "SELECT * FROM user WHERE email = '"+email.getText().toString()+"' AND password = '"+passowrd.getText().toString()+"'";
                     Cursor cursor = db.rawQuery(checkUser, null);
 
                     if (cursor.getCount()>0){
 
-                        sp.edit().putString(ConstantSp.name, cursor.getString(1)).commit();
+                        while(cursor.moveToNext()){
+                            sp.edit().putString(ConstantSp.name, cursor.getString(1)).commit();
+                        }
+
 
                         Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
