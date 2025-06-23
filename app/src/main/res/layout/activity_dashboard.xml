@@ -5,6 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".DashboardActivity">
 
 
@@ -15,6 +17,22 @@
         android:gravity="center"
         android:textColor="@color/blue"
         android:layout_marginTop="@dimen/_20sdp"
+        />
+
+    <Button
+        android:id="@+id/dashboard_logout"
+        style="@style/button_20"
+        android:text="Logout"
+        android:layout_marginTop="@dimen/_40sdp"
+        app:backgroundTint="@null"
+        />
+
+    <Button
+        android:id="@+id/dashboard_delete"
+        style="@style/button_20"
+        android:text="delete Profile"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:backgroundTint="@null"
         />
 
 

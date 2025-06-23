@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     if (cursor.getCount()>0){
 
                         while(cursor.moveToNext()){
+                            sp.edit().putString(ConstantSp.userid, cursor.getString(0)).commit();
                             sp.edit().putString(ConstantSp.name, cursor.getString(1)).commit();
                         }
 
