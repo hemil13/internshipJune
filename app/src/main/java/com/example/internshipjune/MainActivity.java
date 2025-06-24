@@ -74,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
                         while(cursor.moveToNext()){
                             sp.edit().putString(ConstantSp.userid, cursor.getString(0)).commit();
                             sp.edit().putString(ConstantSp.name, cursor.getString(1)).commit();
+                            sp.edit().putString(ConstantSp.email, cursor.getString(2)).commit();
+                            sp.edit().putString(ConstantSp.contact, cursor.getString(3)).commit();
+                            sp.edit().putString(ConstantSp.password, cursor.getString(4)).commit();
                         }
 
 

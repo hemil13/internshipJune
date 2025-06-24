@@ -35,6 +35,14 @@
         app:backgroundTint="@null"
         />
 
+    <Button
+        android:id="@+id/dashboard_profile"
+        style="@style/button_20"
+        android:text="Profile"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:backgroundTint="@null"
+        />
+
 
 
 

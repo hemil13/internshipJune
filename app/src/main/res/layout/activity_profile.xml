@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    tools:context=".ProfileActivity">
+
+    <EditText
+        android:id="@+id/profile_name"
+        style="@style/edit_10"
+        android:hint="Name"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:background="@drawable/custom_border"
+        />
+
+    <EditText
+        android:id="@+id/profile_contact"
+        style="@style/edit_10"
+        android:hint="Contact"
+        android:maxLength="10"
+        android:inputType="phone"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/custom_border"
+        />
+
+
+    <EditText
+        android:id="@+id/profile_email"
+        style="@style/edit_10"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/custom_border"
+        />
+
+
+    <EditText
+        android:id="@+id/profile_password"
+        style="@style/edit_10"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/custom_border"
+        />
+
+    <EditText
+        android:id="@+id/profile_cnf_password"
+        style="@style/edit_10"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/custom_border"
+        android:visibility="gone"
+        />
+    
+
+    <Button
+        android:id="@+id/profile_edit"
+        style="@style/button_20"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:text="Edit profile"
+        app:backgroundTint="@null"
+        android:layout_marginBottom="@dimen/_20sdp"
+        />
+
+    <Button
+        android:id="@+id/profile_update"
+        style="@style/button_20"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:text="Update profile"
+        app:backgroundTint="@null"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/_20sdp"
+        />
+
+</LinearLayout>
