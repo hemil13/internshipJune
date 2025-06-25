@@ -54,11 +54,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(email.getText().toString().trim().equals("")){
-                    email.setError("Enter Email");
+                    email.setError("Enter Email Or Contact");
                 }
-                else if (!email.getText().toString().matches(email_pattern)) {
-                    email.setError("Enter A Valid Email");
-                }
+
                 else if (passowrd.getText().toString().trim().equals("")) {
                     passowrd.setError("Enter Password");
                 }
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     passowrd.setError("Minimum 6 Characters");
                 }
                 else{
-                    String checkUser = "SELECT * FROM user WHERE email = '"+email.getText().toString()+"' AND password = '"+passowrd.getText().toString()+"'";
+                    String checkUser = "SELECT * FROM user WHERE (email = '"+email.getText().toString()+"' OR contact = '"+email.getText().toString()+"') AND password = '"+passowrd.getText().toString()+"'";
                     Cursor cursor = db.rawQuery(checkUser, null);
 
                     if (cursor.getCount()>0){

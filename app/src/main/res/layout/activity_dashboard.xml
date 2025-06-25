@@ -44,6 +44,15 @@
         />
 
 
+    <Button
+        android:id="@+id/dashboard_category"
+        style="@style/button_20"
+        android:text="Category"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:backgroundTint="@null"
+        />
+
+
 
 
 

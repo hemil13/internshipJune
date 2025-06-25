@@ -2,7 +2,7 @@
     <string name="app_name">internshipJune</string>
     <string name="login_here">Login Here</string>
     <string name="welcome">Welcome back You\'ve \nbeen missed!</string>
-    <string name="email">Email</string>
+    <string name="email">Email Or Contact</string>
     <string name="password">Password</string>
     <string name="forget_password">Forget Your Password?</string>
     <string name="Create_account">Create New Account</string>

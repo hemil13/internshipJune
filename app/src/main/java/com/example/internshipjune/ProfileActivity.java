@@ -107,6 +107,12 @@ public class ProfileActivity extends AppCompatActivity {
 
                     db.execSQL(updateQuery);
 
+                    sp.edit().putString(ConstantSp.name,name.getText().toString()).commit();
+                    sp.edit().putString(ConstantSp.email, email.getText().toString()).commit();
+                    sp.edit().putString(ConstantSp.contact, contact.getText().toString()).commit();
+                    sp.edit().putString(ConstantSp.password, password.getText().toString()).commit();
+
+
                     Toast.makeText(ProfileActivity.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
 
                     cnf_password.setVisibility(View.GONE);
