@@ -1,6 +1,10 @@
 package com.example.internshipjune;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +21,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyHold
     String[] nameArray;
     int[] imageArray;
 
+    SharedPreferences sp;
+
 
     public CategoryAdapter(Context context, int[] categoryIdArray, String[] nameArray, int[] imageArray) {
         this.context = context;
         this.categoryIdArray = categoryIdArray;
         this.nameArray = nameArray;
         this.imageArray = imageArray;
+
+        sp = context.getSharedPreferences(ConstantSp.pref, MODE_PRIVATE);
+
+
     }
 
     @NonNull
@@ -50,10 +60,21 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyHold
     public void onBindViewHolder(@NonNull CategoryAdapter.MyHolder holder, int position) {
         holder.image.setImageResource(imageArray[position]);
         holder.text.setText(nameArray[position]);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                sp.edit().putString(ConstantSp.categoryid, String.valueOf(categoryIdArray[position])).commit();
+
+                Intent intent = new Intent(context, SubCategoryActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
     @Override
     public int getItemCount() {
-        return categoryIdArray.length;
+        return nameArray.length;
     }
 
 
