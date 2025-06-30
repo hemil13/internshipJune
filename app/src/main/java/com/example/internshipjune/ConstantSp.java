@@ -16,4 +16,6 @@ public class ConstantSp {
 
     public static final String categoryid = "CATEGORYID";
 
+    public static final String subcategoryid = "SUBCATEGORYID";
+
 }

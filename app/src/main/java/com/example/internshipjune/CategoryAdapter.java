@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyHolder> {
 
     Context context;
@@ -21,18 +23,29 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyHold
     String[] nameArray;
     int[] imageArray;
 
+
+    ArrayList<CategoryList> arrayList;
+
+
     SharedPreferences sp;
 
 
-    public CategoryAdapter(Context context, int[] categoryIdArray, String[] nameArray, int[] imageArray) {
+//    public CategoryAdapter(Context context, int[] categoryIdArray, String[] nameArray, int[] imageArray) {
+//        this.context = context;
+//        this.categoryIdArray = categoryIdArray;
+//        this.nameArray = nameArray;
+//        this.imageArray = imageArray;
+//
+//        sp = context.getSharedPreferences(ConstantSp.pref, MODE_PRIVATE);
+//    }
+
+
+
+    public CategoryAdapter(Context context, ArrayList<CategoryList> arrayList) {
         this.context = context;
-        this.categoryIdArray = categoryIdArray;
-        this.nameArray = nameArray;
-        this.imageArray = imageArray;
+        this.arrayList = arrayList;
 
         sp = context.getSharedPreferences(ConstantSp.pref, MODE_PRIVATE);
-
-
     }
 
     @NonNull
@@ -58,14 +71,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyHold
 
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.MyHolder holder, int position) {
-        holder.image.setImageResource(imageArray[position]);
-        holder.text.setText(nameArray[position]);
+//        holder.image.setImageResource(imageArray[position]);
+//        holder.text.setText(nameArray[position]);
+
+
+        holder.image.setImageResource(arrayList.get(position).getImage());
+        holder.text.setText(arrayList.get(position).getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                sp.edit().putString(ConstantSp.categoryid, String.valueOf(categoryIdArray[position])).commit();
+//                sp.edit().putString(ConstantSp.categoryid, String.valueOf(categoryIdArray[position])).commit();
+                sp.edit().putString(ConstantSp.categoryid, String.valueOf(arrayList.get(position).getCategoryId())).commit();
 
                 Intent intent = new Intent(context, SubCategoryActivity.class);
                 context.startActivity(intent);
@@ -74,7 +92,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyHold
     }
     @Override
     public int getItemCount() {
-        return nameArray.length;
+        return arrayList.size();
     }
 
 

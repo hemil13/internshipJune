@@ -1,6 +1,8 @@
 package com.example.internshipjune;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,8 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
 
     ArrayList<SubCategoryList> arrayList;
 
+    SharedPreferences sp;
+
 
 
 //    public SubCategoryAdapter(Context context, int[] categoryIdArray, int[] subcategoryIdArray, String[] nameArray, int[] imageArray){
@@ -38,6 +42,8 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     public SubCategoryAdapter(Context context, ArrayList<SubCategoryList> arrayList){
         this.context = context;
         this.arrayList = arrayList;
+
+
     }
 
     @NonNull
@@ -69,6 +75,16 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
 
         holder.name.setText(arrayList.get(position).getName());
         holder.image.setImageResource(arrayList.get(position).getImage());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sp.edit().putString(ConstantSp.subcategoryid, String.valueOf(arrayList.get(position).getSubcategoryid()));
+
+                Intent intent = new Intent(context, ProductActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
     }
 
