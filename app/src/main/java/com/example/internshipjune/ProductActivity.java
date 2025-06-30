@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class ProductActivity extends AppCompatActivity {
 
-    int[] productIdArray = {1,2,3,4,5,6,7,8};
+    int[] productIdArray = {1,2,3,4,5,6};
     int[] subcategoryIdArray = {1,1,1,2,2,2};
     String[] nameArray = {"Redmi","Oneplus","Sony","Noise Headphones","Airpods Max","Sony Headphones"};
     int[] imageArray = {R.drawable.redmi, R.drawable.oneplus, R.drawable.sony,
