@@ -18,4 +18,12 @@ public class ConstantSp {
 
     public static final String subcategoryid = "SUBCATEGORYID";
 
+    public static final String rupees = "₹";
+
+    public static final String productid = "PRODUCTID";
+    public static final String productname = "PRODUCTNAME";
+    public static final String productdesc = "PRODUCTDESC";
+    public static final String productprice = "PRODUCTPRICE";
+    public static final String productimage = "PRODUCTIMAGE";
+
 }

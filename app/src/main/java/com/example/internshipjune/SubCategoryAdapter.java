@@ -1,5 +1,7 @@
 package com.example.internshipjune;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,8 +44,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     public SubCategoryAdapter(Context context, ArrayList<SubCategoryList> arrayList){
         this.context = context;
         this.arrayList = arrayList;
-
-
+        sp = context.getSharedPreferences(ConstantSp.pref, MODE_PRIVATE);
     }
 
     @NonNull
@@ -79,7 +80,7 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sp.edit().putString(ConstantSp.subcategoryid, String.valueOf(arrayList.get(position).getSubcategoryid()));
+                sp.edit().putString(ConstantSp.subcategoryid, String.valueOf(arrayList.get(position).getSubcategoryid())).commit();
 
                 Intent intent = new Intent(context, ProductActivity.class);
                 context.startActivity(intent);
