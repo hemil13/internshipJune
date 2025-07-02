@@ -1,6 +1,8 @@
 package com.example.internshipjune;
 
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -32,12 +34,30 @@ public class ProductActivity extends AppCompatActivity {
 
     SharedPreferences sp;
 
+    SQLiteDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
         sp = getSharedPreferences(ConstantSp.pref, MODE_PRIVATE);
+
+        db = openOrCreateDatabase("InternshipJune.db", MODE_PRIVATE, null);
+        String userTable = "CREATE TABLE IF NOT EXISTS user(userid INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50), email VARCHAR(100), contact VARCHAR(15), password VARCHAR(20))";
+        db.execSQL(userTable);
+
+        String categoryTable = "CREATE TABLE IF NOT EXISTS category(categoryid INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50), image VARCHAR(100))";
+        db.execSQL(categoryTable);
+
+        String subcategoryTable = "CREATE TABLE IF NOT EXISTS subcategory(subcategoryid INTEGER PRIMARY KEY AUTOINCREMENT,categoryid VACHAR(10), name VARCHAR(50), image VARCHAR(100))";
+        db.execSQL(subcategoryTable);
+
+        String productTable = "CREATE TABLE IF NOT EXISTS product(productid INTEGER PRIMARY KEY AUTOINCREMENT, subcategoryid VACHAR(10), name VARCHAR(50), image VARCHAR(100), price VARCHAR(10), description VARCHAR(100))";
+        db.execSQL(productTable);
+
+
+
 
         recyclerView = findViewById(R.id.productRecycler);
 
@@ -49,21 +69,55 @@ public class ProductActivity extends AppCompatActivity {
 
         arrayList = new ArrayList<>();
 
-        for(int i = 0 ; i<productIdArray.length; i++){
-            ProductList list = new ProductList();
 
-            if (subcategoryIdArray[i] == Integer.parseInt(sp.getString(ConstantSp.subcategoryid,""))){
-                list.setProductId(productIdArray[i]);
-                list.setSubcategoryId(subcategoryIdArray[i]);
-                list.setName(nameArray[i]);
-                list.setImage(imageArray[i]);
-                list.setPrice(priceArray[i]);
-                list.setDescription(descArray[i]);
-                arrayList.add(list);
+        for(int i = 0;i<nameArray.length;i++){
+            String checkProduct = "SELECT * FROM product WHERE name = '"+nameArray[i]+"'AND subcategoryid = '"+subcategoryIdArray[i]+"'";
+            Cursor cursor = db.rawQuery(checkProduct, null);
+
+            if(cursor.getCount()==0){
+                String insertProduct = "INSERT INTO product VALUES(NULL, '"+subcategoryIdArray[i]+"', '"+nameArray[i]+"', '"+imageArray[i]+"', '"+priceArray[i]+"', '"+descArray[i]+"')";
+                db.execSQL(insertProduct);
             }
         }
 
-        ProductAdapter adapter = new ProductAdapter(ProductActivity.this, arrayList);
-        recyclerView.setAdapter(adapter);
+
+        String checkProduct = "SELECT * FROM product WHERE subcategoryid = '"+sp.getString(ConstantSp.subcategoryid, "")+"'";
+        Cursor cursor = db.rawQuery(checkProduct, null);
+
+        if(cursor.getCount()>0){
+            while(cursor.moveToNext()) {
+                ProductList list = new ProductList();
+                list.setProductId(cursor.getInt(0));
+                list.setSubcategoryId(cursor.getInt(1));
+                list.setName(cursor.getString(2));
+                list.setImage(cursor.getInt(3));
+                list.setPrice(cursor.getString(4));
+                list.setDescription(cursor.getString(5));
+                arrayList.add(list);
+            }
+
+            ProductAdapter adapter = new ProductAdapter(ProductActivity.this, arrayList);
+            recyclerView.setAdapter(adapter);
+        }
+
+
+
+
+//        for(int i = 0 ; i<productIdArray.length; i++){
+//
+//            if (subcategoryIdArray[i] == Integer.parseInt(sp.getString(ConstantSp.subcategoryid,""))){
+//                ProductList list = new ProductList();
+//                list.setProductId(productIdArray[i]);
+//                list.setSubcategoryId(subcategoryIdArray[i]);
+//                list.setName(nameArray[i]);
+//                list.setImage(imageArray[i]);
+//                list.setPrice(priceArray[i]);
+//                list.setDescription(descArray[i]);
+//                arrayList.add(list);
+//            }
+//        }
+
+//        ProductAdapter adapter = new ProductAdapter(ProductActivity.this, arrayList);
+//        recyclerView.setAdapter(adapter);
     }
 }

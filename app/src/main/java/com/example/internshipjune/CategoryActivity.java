@@ -42,10 +42,6 @@ public class CategoryActivity extends AppCompatActivity {
         db.execSQL(categoryTable);
 
 
-
-
-
-
         category_recycler = findViewById(R.id.category_recycler);
 
         category_recycler.setLayoutManager(new LinearLayoutManager(CategoryActivity.this));
@@ -73,13 +69,30 @@ public class CategoryActivity extends AppCompatActivity {
 
 
 
-        for(int i=0; i<categoryIdArray.length;i++){
-            CategoryList list = new CategoryList();
-            list.setCategoryId(categoryIdArray[i]);
-            list.setName(nameArray[i]);
-            list.setImage(imageArray[i]);
-            arrayList.add(list);
+
+        String checkCategory = "SELECT * FROM category";
+        Cursor cursor = db.rawQuery(checkCategory, null);
+
+        if(cursor.getCount()>0){
+            while(cursor.moveToNext()){
+                CategoryList list = new CategoryList();
+                list.setCategoryId(cursor.getInt(0));
+                list.setName(cursor.getString(1));
+                list.setImage(cursor.getInt(2));
+                arrayList.add(list);
+            }
+            CategoryAdapter adapter = new CategoryAdapter (CategoryActivity.this, arrayList);
+            category_recycler.setAdapter(adapter);
         }
+
+
+//        for(int i=0; i<categoryIdArray.length;i++){
+//            CategoryList list = new CategoryList();
+//            list.setCategoryId(categoryIdArray[i]);
+//            list.setName(nameArray[i]);
+//            list.setImage(imageArray[i]);
+//            arrayList.add(list);
+//        }
 
 
 
@@ -88,8 +101,8 @@ public class CategoryActivity extends AppCompatActivity {
 
 
 
-        CategoryAdapter adapter = new CategoryAdapter (CategoryActivity.this, arrayList);
-        category_recycler.setAdapter(adapter);
+//        CategoryAdapter adapter = new CategoryAdapter (CategoryActivity.this, arrayList);
+//        category_recycler.setAdapter(adapter);
 
 
     }
