@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +38,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        ImageView image;
+        ImageView image, wishlist;
         TextView text, price;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
@@ -45,6 +46,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
             image = itemView.findViewById(R.id.product_image);
             text = itemView.findViewById(R.id.product_text);
             price = itemView.findViewById(R.id.product_price);
+            wishlist = itemView.findViewById(R.id.product_wishlist);
         }
     }
 
@@ -66,6 +68,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
 
                 Intent intent = new Intent(context, ProductDetailActivity.class);
                 context.startActivity(intent);
+            }
+        });
+
+        holder.wishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.wishlist.setImageResource(R.drawable.wishlist_fill);
+                Toast.makeText(context, "Added to Wishlist", Toast.LENGTH_SHORT).show();
             }
         });
 
