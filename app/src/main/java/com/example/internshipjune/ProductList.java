@@ -1,6 +1,7 @@
 package com.example.internshipjune;
 
 public class ProductList {
+
     public int getProductId() {
         return productId;
     }
@@ -49,6 +50,16 @@ public class ProductList {
         this.description = description;
     }
 
+    public boolean isWishlist() {
+        return isWishlist;
+    }
+
+    public void setWishlist(boolean wishlist) {
+        isWishlist = wishlist;
+    }
+
     int productId, subcategoryId, image;
     String name, price, description;
+
+    boolean isWishlist;
 }

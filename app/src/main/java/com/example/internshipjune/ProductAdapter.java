@@ -23,6 +23,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
 
     SharedPreferences sp;
 
+    Boolean isWishlist = false;
+
+
     public ProductAdapter(Context context, ArrayList<ProductList> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
@@ -60,6 +63,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
             @Override
             public void onClick(View view) {
 
+                sp.edit().putString(ConstantSp.productid, String.valueOf(arrayList.get(position).getProductId())).commit();
                 sp.edit().putString(ConstantSp.productname, arrayList.get(position).getName()).commit();
                 sp.edit().putString(ConstantSp.productimage, String.valueOf(arrayList.get(position).getImage())).commit();
                 sp.edit().putString(ConstantSp.productprice, arrayList.get(position).getPrice()).commit();
@@ -74,8 +78,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
         holder.wishlist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.wishlist.setImageResource(R.drawable.wishlist_fill);
-                Toast.makeText(context, "Added to Wishlist", Toast.LENGTH_SHORT).show();
+                if(isWishlist){
+                    isWishlist = false;
+                    holder.wishlist.setImageResource(R.drawable.wishlist_empty);
+                    Toast.makeText(context, "Removed From Wishlist", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    isWishlist = true;
+                    holder.wishlist.setImageResource(R.drawable.wishlist_fill);
+                    Toast.makeText(context, "Added to Wishlist", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
