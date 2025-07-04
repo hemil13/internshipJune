@@ -59,6 +59,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
         holder.text.setText(arrayList.get(position).getName());
         holder.price.setText(ConstantSp.rupees+arrayList.get(position).getPrice());
 
+        if(arrayList.get(position).isWishlist ){
+//            isWishlist = true;
+            holder.wishlist.setImageResource(R.drawable.wishlist_fill);
+        }
+        else {
+//            isWishlist = false;
+            holder.wishlist.setImageResource(R.drawable.wishlist_empty);
+        }
+
+
+
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

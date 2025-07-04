@@ -96,6 +96,17 @@ public class ProductActivity extends AppCompatActivity {
                 list.setImage(cursor.getInt(3));
                 list.setPrice(cursor.getString(4));
                 list.setDescription(cursor.getString(5));
+
+                String chekcWishlist = "SELECT * FROM wishlist WHERE productid = '"+list.getProductId()+"' AND userid = '"+sp.getString(ConstantSp.userid, "")+"'";
+                Cursor wishCursor = db.rawQuery(chekcWishlist, null);
+
+                if (wishCursor.getCount()>0){
+                    list.setWishlist(true);
+                }
+                else {
+                    list.setWishlist(false);
+                }
+
                 arrayList.add(list);
             }
 

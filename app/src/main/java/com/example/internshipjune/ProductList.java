@@ -2,6 +2,7 @@ package com.example.internshipjune;
 
 public class ProductList {
 
+
     public int getProductId() {
         return productId;
     }
