@@ -52,6 +52,14 @@
         app:backgroundTint="@null"
         />
 
+    <Button
+        android:id="@+id/dashboard_wishlist"
+        style="@style/button_20"
+        android:text="Wishlist"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:backgroundTint="@null"
+        />
+
 
 
 
