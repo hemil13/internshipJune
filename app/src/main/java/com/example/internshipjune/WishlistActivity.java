@@ -74,6 +74,13 @@ public class WishlistActivity extends AppCompatActivity {
                         list.setImage(Integer.parseInt(productCursor.getString(3)));
                         list.setPrice(productCursor.getString(4));
                         list.setDescription(productCursor.getString(5));
+
+                        if (productCursor.getCount()>0){
+                            list.setWishlist(true);
+                        }
+                        else {
+                            list.setWishlist(false);
+                        }
                     }
                 }
                 productCursor.close();

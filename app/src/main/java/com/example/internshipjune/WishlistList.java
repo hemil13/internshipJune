@@ -3,6 +3,7 @@ package com.example.internshipjune;
 public class WishlistList {
     int image;
     String name, price, description, subcategoryid, wishlistid, productid;
+    Boolean isWishlist;
 
     public int getImage() {
         return image;
@@ -58,5 +59,13 @@ public class WishlistList {
 
     public void setProductid(String productid) {
         this.productid = productid;
+    }
+
+    public Boolean getWishlist() {
+        return isWishlist;
+    }
+
+    public void setWishlist(Boolean wishlist) {
+        isWishlist = wishlist;
     }
 }

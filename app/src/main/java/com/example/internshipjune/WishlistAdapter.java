@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,6 +60,15 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyHold
         holder.text.setText(arrayList.get(position).getName());
         holder.price.setText(arrayList.get(position).getPrice());
 
+        if(arrayList.get(position).isWishlist ){
+//            isWishlist = true;
+            holder.wishlist.setImageResource(R.drawable.wishlist_fill);
+        }
+        else {
+//            isWishlist = false;
+            holder.wishlist.setImageResource(R.drawable.wishlist_empty);
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,6 +82,27 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyHold
 
                 Intent intent = new Intent(context, ProductDetailActivity.class);
                 context.startActivity(intent);
+            }
+        });
+
+        holder.wishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(arrayList.get(position).isWishlist){
+                    arrayList.get(position).setWishlist(false);
+                    String deleteWishlist = "DELETE FROM wishlist WHERE wishlistid = '"+arrayList.get(position).getWishlistid()+"'";
+                    db.execSQL(deleteWishlist);
+                    holder.wishlist.setImageResource(R.drawable.wishlist_empty);
+                    Toast.makeText(context, "Removed From Wishlist", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    arrayList.get(position).setWishlist(true);
+                    String insertWishlist = "INSERT INTO wishlist(productid, userid) VALUES('"+arrayList.get(position).getProductid()+"', '"+sp.getString(ConstantSp.userid,"")+"')";
+                    db.execSQL(insertWishlist);
+                    holder.wishlist.setImageResource(R.drawable.wishlist_fill);
+                    Toast.makeText(context, "Added to Wishlist", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
