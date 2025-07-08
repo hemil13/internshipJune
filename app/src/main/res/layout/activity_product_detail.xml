@@ -55,6 +55,17 @@
             />
 
 
+        <Button
+            android:id="@+id/pay_now"
+            style="@style/button_20"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:text="PAYNOW"
+            android:background="@drawable/custom_button"
+            app:backgroundTint="@null"
+            android:layout_marginBottom="@dimen/_40sdp"
+            />
+
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

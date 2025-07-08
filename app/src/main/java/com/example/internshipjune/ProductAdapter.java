@@ -5,6 +5,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
 
     SharedPreferences sp;
 
+    SQLiteDatabase db;
+
+
     Boolean isWishlist = false;
 
 
-    public ProductAdapter(Context context, ArrayList<ProductList> arrayList) {
+//    public ProductAdapter(Context context, ArrayList<ProductList> arrayList) {
+//        this.context = context;
+//        this.arrayList = arrayList;
+//
+//        sp = context.getSharedPreferences(ConstantSp.pref, MODE_PRIVATE);
+//    }
+
+    public ProductAdapter(Context context, ArrayList<ProductList> arrayList, SQLiteDatabase db) {
         this.context = context;
         this.arrayList = arrayList;
+        this.db = db;
 
         sp = context.getSharedPreferences(ConstantSp.pref, MODE_PRIVATE);
     }
@@ -92,11 +104,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyHolder
             public void onClick(View view) {
                 if(isWishlist){
                     isWishlist = false;
+                    String deleteWishlist = "DELETE FROM wishlist WHERE userid = '"+sp.getString(ConstantSp.userid,"")+"' AND productid = '"+ arrayList.get(position).getProductId()  +"'";
+                    db.execSQL(deleteWishlist);
                     holder.wishlist.setImageResource(R.drawable.wishlist_empty);
                     Toast.makeText(context, "Removed From Wishlist", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     isWishlist = true;
+                    String insertWishlist = "INSERT INTO wishlist(productid, userid) VALUES('"+arrayList.get(position).getProductId()+"', '"+sp.getString(ConstantSp.userid,"")+"')";
+                    db.execSQL(insertWishlist);
                     holder.wishlist.setImageResource(R.drawable.wishlist_fill);
                     Toast.makeText(context, "Added to Wishlist", Toast.LENGTH_SHORT).show();
                 }

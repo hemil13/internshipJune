@@ -94,6 +94,9 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.MyHold
                     db.execSQL(deleteWishlist);
                     holder.wishlist.setImageResource(R.drawable.wishlist_empty);
                     Toast.makeText(context, "Removed From Wishlist", Toast.LENGTH_SHORT).show();
+                    arrayList.remove(position);
+                    notifyDataSetChanged();
+
                 }
                 else{
                     arrayList.get(position).setWishlist(true);
