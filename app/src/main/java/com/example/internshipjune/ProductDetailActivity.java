@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,13 +30,17 @@ public class ProductDetailActivity extends AppCompatActivity implements PaymentR
 
     SharedPreferences sp;
 
-    TextView name, price, description;
-    ImageView image, wishlist;
+    TextView name, price, description, qty;
+    ImageView image, wishlist, cart, plus, minus;
 
     Boolean isWhislist;
     Button pay_now;
 
+    LinearLayout cart_layout;
+
     SQLiteDatabase db;
+
+    int iqty = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,8 @@ public class ProductDetailActivity extends AppCompatActivity implements PaymentR
         String wishlistTable = "CREATE TABLE IF NOT EXISTS wishlist(wishlistid INTEGER PRIMARY KEY AUTOINCREMENT, productid INTEGER, userid INTEGER)";
         db.execSQL(wishlistTable);
 
+        String cartTable = "CREATE TABLE IF NOT EXISTS cart(cartid INTEGER PRIMARY KEY AUTOINCREMENT,orderid INTEGER,  productid INTEGER, userid INTEGER, qty INTEGER, price INTEGER, totalPrice INTEGER)";
+        db.execSQL(cartTable);
 
         name = findViewById(R.id.product_detail_text);
         price = findViewById(R.id.product_detail_price);
@@ -67,6 +74,11 @@ public class ProductDetailActivity extends AppCompatActivity implements PaymentR
         image = findViewById(R.id.product_detail_image);
         wishlist = findViewById(R.id.product_detail_wishlist);
         pay_now = findViewById(R.id.pay_now);
+        cart = findViewById(R.id.product_detail_cart);
+        cart_layout = findViewById(R.id.product_detail_cart_layout);
+        qty = findViewById(R.id.product_detail_cart_qty);
+        plus = findViewById(R.id.product_detail_qty_add);
+        minus = findViewById(R.id.product_detail_qty_substract);
 
         name.setText(sp.getString(ConstantSp.productname, ""));
         price.setText(ConstantSp.rupees+sp.getString(ConstantSp.productprice, ""));
@@ -118,6 +130,71 @@ public class ProductDetailActivity extends AppCompatActivity implements PaymentR
                 startPayment();
             }
         });
+
+        cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iqty = 1;
+                int iPrice = Integer.parseInt(sp.getString(ConstantSp.productprice,""));
+                int iTotalPrice = iqty*iPrice;
+                String insertCartQuery = "INSERT INTO cart VALUES(NULL,'0','"+sp.getString(ConstantSp.userid, "")+"','"+sp.getString(ConstantSp.productid, "")+"','"+iqty+"','"+iPrice+"','"+iTotalPrice+"')";
+                db.execSQL(insertCartQuery);
+                Toast.makeText(ProductDetailActivity.this, "Added To Cart", Toast.LENGTH_SHORT).show();
+                cart.setVisibility(View.GONE);
+                cart_layout.setVisibility(View.VISIBLE);
+                qty.setText(String.valueOf(iqty));
+            }
+        });
+
+//        String checkCart = "SELECT * FROM cart WHERE productid = '"+sp.getString(ConstantSp.productid,"")+"' AND userid = '"+sp.getString(ConstantSp.userid,"")+"'";
+//        Cursor cartCursor = db.rawQuery(checkCart, null);
+//
+//        if(cartCursor.getCount()>0){
+//
+//        }
+
+
+
+        plus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iqty++;
+                updateMethod(iqty, "update");
+                qty.setText(String.valueOf(iqty));
+                Toast.makeText(ProductDetailActivity.this, "Updated Cart", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        minus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iqty--;
+                if(iqty>0){
+                    updateMethod(iqty,"update");
+                    qty.setText(String.valueOf(iqty));
+                    Toast.makeText(ProductDetailActivity.this, "Updated Cart", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    updateMethod(iqty, "delete");
+                    Toast.makeText(ProductDetailActivity.this, "Removed From Cart", Toast.LENGTH_SHORT).show();
+                    cart.setVisibility(View.VISIBLE);
+                    cart_layout.setVisibility(View.GONE);
+                }
+            }
+        });
+
+    }
+
+    private void updateMethod(int iqty, String type) {
+        if(type.equalsIgnoreCase("update")){
+            String updateCart = "UPDATE cart SET qty = '"+iqty+"' AND totalPrice = '"+iqty*Integer.parseInt(sp.getString(ConstantSp.productprice,""))+"' WHERE productid = '"+sp.getString(ConstantSp.productid,"")+"' AND userid = '"+sp.getString(ConstantSp.userid,"")+"'";
+            db.execSQL(updateCart);
+        }
+
+        if(type.equalsIgnoreCase("delete")){
+            String deleteCart = "DELETE FROM cart WHERE productid = '"+sp.getString(ConstantSp.productid,"")+"' AND userid = '"+sp.getString(ConstantSp.userid,"")+"'";
+            db.execSQL(deleteCart);
+        }
     }
 
     private void startPayment() {
